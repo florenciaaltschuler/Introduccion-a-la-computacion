@@ -1,0 +1,47 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Thu Dec  5 11:09:39 2019
+
+@author: icb01
+"""
+import matplotlib.pyplot as plt
+import numpy as np
+
+mediciones = np.loadtxt('datos.txt')
+#cant_repeticiones = len(mediciones) // 20
+meds = mediciones.reshape(2, 3, 2)
+
+
+fig = plt.figure()
+
+cantpuntos = [160,325,4824] # tamaño foto (kilobytes)
+plt.title('tiempo de procesamiento de foto')
+#plt.yscale('log')
+#plt.xscale("log")
+medias = np.mean(meds[:,:,:], axis=0)
+stds   = np.std(meds[:,:,:], axis=0)
+               
+plt.errorbar(x=cantpuntos, y=medias[:,0],  label='sin numba')
+plt.errorbar(x=cantpuntos, y=medias[:,1],  label='con numba')
+
+
+#plt.xticks(cantpuntos, cantpuntos) # ¿y aca?
+#plt.xlim(90,2010) # Esto en fn de cuantos puntos elijamos
+
+plt.xlabel('tamaño de la imagen [kb]')
+plt.ylabel('tiempo de ejecución [seg]')
+
+plt.legend(loc='best')
+
+#Grabamos el archivo de salida
+plt.savefig('multmatrices_grafico.pdf')
+
+
+#Grabamos el archivo de salida
+plt.savefig('multmatrices_grafico.pdf')
+#base de datos con distintos cores, para el mismo tamaño
+#core 1 tam 10 pix rep 1 
+#cvore 2 10 pix rep 1
+#core 4 10 pix rep 1
+#....
